@@ -1,0 +1,105 @@
+{
+  "ownerStats": {
+    "totalOrders": 120,
+    "activeOrders": 8,
+    "revenue": 56000,
+    "menuItems": 24
+  },
+//   "orders": [
+//     {
+//       "id": 1,
+//       "customer": { "name": "Rahul Sharma" },
+//       "restaurant": { "name": "Spice Hub" },
+//       "status": "Preparing",
+//       "orderDate": "2025-08-25T14:30:00Z",
+//       "totalAmount": 450
+//     },
+//     {
+//       "id": 2,
+//       "customer": { "name": "Ananya Verma" },
+//       "restaurant": { "name": "Biryani House" },
+//       "status": "Out for Delivery",
+//       "orderDate": "2025-08-25T15:45:00Z",
+//       "totalAmount": 700
+//     },
+//     {
+//       "id": 3,
+//       "customer": { "name": "Rohit Mehta" },
+//       "restaurant": { "name": "Burger King" },
+//       "status": "Delivered",
+//       "orderDate": "2025-08-24T18:10:00Z",
+//       "totalAmount": 250
+//     }
+//   ],
+
+  "menus": [
+    {
+      "id": 1,
+      "itemName": "Paneer Butter Masala",
+      "description": "Rich creamy curry made with paneer cubes",
+      "price": 220,
+      "restaurant": { "id": 1 }
+    },
+    {
+      "id": 2,
+      "itemName": "Chicken Biryani",
+      "description": "Fragrant rice with tender chicken pieces",
+      "price": 280,
+      "restaurant": { "id": 1 }
+    },
+    {
+      "id": 3,
+      "itemName": "Veg Burger",
+      "description": "Crispy veg patty with lettuce & cheese",
+      "price": 120,
+      "restaurant": { "id": 1 }
+    },
+    {
+      "id": 4,
+      "itemName": "Garlic Naan",
+      "description": "Soft naan topped with garlic and butter",
+      "price": 60,
+      "restaurant": { "id": 1 }
+    }
+  ],
+  "restaurants": [
+    {
+      "id": 1,
+      "name": "Spice Hub",
+      "phone": "9876543210",
+      "address": "123 MG Road, Bangalore, India"
+    },
+    {
+      "id": 2,
+      "name": "Biryani House",
+      "phone": "9123456780",
+      "address": "45 Park Street, Hyderabad, India"
+    },
+    {
+      "id": 3,
+      "name": "Burger King",
+      "phone": "9012345678",
+      "address": "56 Ring Road, Delhi, India"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "customer": { "name": "Rahul Sharma" },
+      "rating": 5,
+      "comment": "Amazing food and quick delivery!"
+    },
+    {
+      "id": 2,
+      "customer": { "name": "Ananya Verma" },
+      "rating": 4,
+      "comment": "Loved the biryani, but delivery was a bit late."
+    },
+    {
+      "id": 3,
+      "customer": { "name": "Rohit Mehta" },
+      "rating": 3,
+      "comment": "Food was average, could improve taste."
+    }
+  ]
+}

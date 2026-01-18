@@ -1,0 +1,470 @@
+import { useState, useEffect } from "react";
+
+export default function ManageMenu() {
+  const [menu, setMenu] = useState([]);
+  const [newItem, setNewItem] = useState({
+    name: "",
+    price: "",
+    category: "",
+    image: ""
+  });
+
+ 
+  useEffect(() => {
+    fetch("http://localhost:5000/menu")
+      .then(res => res.json())
+      .then(data => setMenu(data));
+  }, []);
+
+
+  const handleAddItem = () => {
+    if (!newItem.name || !newItem.price) return;
+
+    fetch("http://localhost:5000/menu", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...newItem })
+    })
+      .then(res => res.json())
+      .then(data => {
+        setMenu([...menu, data]);
+        setNewItem({ name: "", price: "", category: "", image: "" });
+      });
+  };
+
+ 
+  const handleDelete = (id) => {
+    fetch(`http://localhost:5000/menu/${id}`, { method: "DELETE" })
+      .then(() => setMenu(menu.filter(item => item.id !== id)));
+  };
+
+
+  const handleEdit = (id, field, value) => {
+    const updatedItem = menu.find(item => item.id === id);
+    if (!updatedItem) return;
+
+    const newData = { ...updatedItem, [field]: value };
+
+    fetch(`http://localhost:5000/menu/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newData)
+    })
+      .then(res => res.json())
+      .then(data => {
+        setMenu(menu.map(item => (item.id === id ? data : item)));
+      });
+  };
+
+  return (
+    <div>
+      <h2 className="mb-4">Manage Menu</h2>
+
+    
+      <div className="card mb-4">
+        <div className="card-header">Add New Menu Item</div>
+        <div className="card-body">
+          <div className="row g-3">
+            <div className="col-md-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Dish Name"
+                value={newItem.name}
+                onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+              />
+            </div>
+            <div className="col-md-2">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Price ₹"
+                value={newItem.price}
+                onChange={(e) =>
+                  setNewItem({ ...newItem, price: Number(e.target.value) })
+                }
+              />
+            </div>
+            <div className="col-md-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Category"
+                value={newItem.category}
+                onChange={(e) =>
+                  setNewItem({ ...newItem, category: e.target.value })
+                }
+              />
+            </div>
+            <div className="col-md-3">
+              <input
+                type="url"
+                className="form-control"
+                placeholder="Image URL"
+                value={newItem.image}
+                onChange={(e) =>
+                  setNewItem({ ...newItem, image: e.target.value })
+                }
+              />
+            </div>
+            <div className="col-md-1 d-grid">
+              <button className="btn btn-success" onClick={handleAddItem}>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  
+      <div className="table-responsive">
+        <table className="table table-striped align-middle">
+          <thead className="table-dark">
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {menu.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    style={{ width: "70px", borderRadius: "8px" }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={item.name}
+                    onChange={(e) =>
+                      handleEdit(item.id, "name", e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={item.category}
+                    onChange={(e) =>
+                      handleEdit(item.id, "category", e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={item.price}
+                    onChange={(e) =>
+                      handleEdit(item.id, "price", Number(e.target.value))
+                    }
+                  />
+                </td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+this is db.json before changing
+
+
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "Admin",
+      "email": "admin@gmail.com",
+      "password": "password",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "John Doe",
+      "email": "owner1@gmail.com",
+      "password": "password",
+      "role": "owner"
+    },
+    {
+      "id": "3",
+      "username": "Jane Smith",
+      "email": "customer1@gmail.com",
+      "password": "password",
+      "role": "customer"
+    },
+    {
+      "id": "4",
+      "username": "Owner 2",
+      "email": "owner2@gmail.com",
+      "password": "password",
+      "role": "owner"
+    },
+    {
+      "id": "5",
+      "username": "Owner 3",
+      "email": "owner3@gmail.com",
+      "password": "password",
+      "role": "owner"
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "Spice Hub",
+      "phone": "9876543210",
+      "address": "123 MG Road, Bangalore, India"
+    },
+    {
+      "id": "2",
+      "name": "Biryani House",
+      "phone": "9123456780",
+      "address": "45 Park Street, Hyderabad, India"
+    },
+    {
+      "id": "3",
+      "name": "Burger King",
+      "phone": "9012345678",
+      "address": "56 Ring Road, Delhi, India"
+    }
+  ],
+  "payments": [
+    {
+      "id": "101",
+      "order": "1",
+      "paymentStatus": "Pending",
+      "paymentDate": "2025-05-23",
+      "amount": 300
+    },
+    {
+      "id": "102",
+      "order": "2",
+      "paymentStatus": "Completed",
+      "paymentDate": "2025-04-20",
+      "amount": 500
+    },
+    {
+      "id": "103",
+      "order": "3",
+      "paymentStatus": "Failed",
+      "paymentDate": "2025-06-03",
+      "amount": 450
+    }
+  ],
+  "refunds": [
+    {
+      "id": "1",
+      "customerId": 101,
+      "orderId": 3001,
+      "createdAt": "2025-03-03",
+      "reason": "Item was cold on arrival",
+      "status": "PENDING"
+    },
+    {
+      "id": "2",
+      "customerId": 102,
+      "orderId": 3004,
+      "createdAt": "2025-05-14",
+      "reason": "Wrong item delivered",
+      "status": "APPROVED"
+    },
+    {
+      "id": "3",
+      "customerId": 103,
+      "orderId": 3010,
+      "createdAt": "2025-07-24",
+      "reason": "Missing item in order",
+      "status": "REJECTED"
+    }
+  ],
+  "disputes": [
+    {
+      "id": "1",
+      "userId": 101,
+      "orderId": 3010,
+      "complaint": "Delivery was late by over an hour"
+    },
+    {
+      "id": "2",
+      "userId": 102,
+      "orderId": 3010,
+      "complaint": "Rider was rude during delivery"
+    }
+  ],
+  "ownerStats": {
+    "totalOrders": 120,
+    "activeOrders": 8,
+    "revenue": 56000,
+    "menuItems": 24
+  },
+  "orders": [
+    {
+      "id": "1",
+      "customer": {
+        "name": "Rahul Sharma"
+      },
+      "restaurant": {
+        "name": "Spice Hub"
+      },
+      "items": [
+        {
+          "itemName": "Paneer Butter Masala",
+          "quantity": 2
+        },
+        {
+          "itemName": "Garlic Naan",
+          "quantity": 4
+        }
+      ],
+      "total": 850,
+      "status": "Out for Delivery"
+    },
+    {
+      "id": "2",
+      "customer": {
+        "name": "Ananya Verma"
+      },
+      "restaurant": {
+        "name": "Biryani House"
+      },
+      "items": [
+        {
+          "itemName": "Chicken Biryani",
+          "quantity": 1
+        },
+        {
+          "itemName": "Raita",
+          "quantity": 1
+        }
+      ],
+      "total": 450,
+      "status": "Delivered"
+    },
+    {
+      "id": "3",
+      "customer": {
+        "name": "Rohit Mehta"
+      },
+      "restaurant": {
+        "name": "Burger King"
+      },
+      "items": [
+        {
+          "itemName": "Whopper",
+          "quantity": 2
+        },
+        {
+          "itemName": "Fries",
+          "quantity": 1
+        },
+        {
+          "itemName": "Coke",
+          "quantity": 2
+        }
+      ],
+      "total": 750,
+      "status": "Preparing"
+    }
+  ],
+  "menus": [
+    {
+      "id": "1",
+      "itemName": "Paneer Butter Masala",
+      "description": "Rich creamy curry made with paneer cubes",
+      "price": 220,
+      "restaurant": {
+        "id": 1
+      }
+    },
+    {
+      "id": "2",
+      "itemName": "Chicken Biryani",
+      "description": "Fragrant rice with tender chicken pieces",
+      "price": 280,
+      "restaurant": {
+        "id": 1
+      }
+    },
+    {
+      "id": "3",
+      "itemName": "Veg Burger",
+      "description": "Crispy veg patty with lettuce & cheese",
+      "price": 120,
+      "restaurant": {
+        "id": 1
+      }
+    },
+    {
+      "id": "4",
+      "itemName": "Garlic Naan",
+      "description": "Soft naan topped with garlic and butter",
+      "price": 60,
+      "restaurant": {
+        "id": 1
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "customer": {
+        "name": "Rahul Sharma"
+      },
+      "rating": 5,
+      "comment": "Amazing food and quick delivery!"
+    },
+    {
+      "id": "2",
+      "customer": {
+        "name": "Ananya Verma"
+      },
+      "rating": 4,
+      "comment": "Loved the biryani, but delivery was a bit late."
+    },
+    {
+      "id": "3",
+      "customer": {
+        "name": "Rohit Mehta"
+      },
+      "rating": 3,
+      "comment": "Food was average, could improve taste."
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

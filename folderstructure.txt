@@ -1,0 +1,169 @@
+src/
+ ├── components/         # Reusable UI components
+ │    ├── Navbar.jsx
+ │    ├── Footer.jsx
+ │    ├── PrivateRoute.jsx
+ │    ├── Loader.jsx
+ │    └── Card.jsx
+ │
+ ├── pages/              # Role-based pages
+ │    ├── Auth/
+ │    │    ├── Login.jsx
+ │    │    └── Register.jsx
+ │    │
+ │    ├── Customer/
+ │    │    ├── RestaurantList.jsx
+ │    │    ├── RestaurantMenu.jsx
+ │    │    ├── Cart.jsx
+ │    │    ├── Checkout.jsx
+ │    │    ├── OrderTracking.jsx
+ │    │    └── Reviews.jsx
+ │    │
+ │    ├── Owner/
+ │    │    ├── Dashboard.jsx
+ │    │    ├── ManageMenu.jsx
+ │    │    ├── Orders.jsx
+ │    │    └── OwnerReviews.jsx
+ │    │
+ │    └── Admin/
+ │         ├── Dashboard.jsx
+ │         ├── ManageUsers.jsx
+ │         ├── ManageRestaurants.jsx
+ │         ├── Reports.jsx
+ │         └── Disputes.jsx
+ │
+ ├── services/           # API calls (axios/fetch)
+ │    ├── authService.js
+ │    ├── restaurantService.js
+ │    ├── menuService.js
+ │    ├── orderService.js
+ │    ├── paymentService.js
+ │    └── reviewService.js
+ │
+ ├── context/            # Global state
+ │    ├── AuthContext.jsx
+ │    └── CartContext.jsx
+ │
+ ├── App.jsx             # Routes defined here
+ ├── main.jsx            # Entry point
+ └── index.css           # Tailwind/Bootstrap/global styles
+
+
+
+
+
+
+
+
+
+
+From your list, these map to Owner Module:
+
+GET /owner/{id}/restaurants → list restaurants owned.
+
+GET /restaurants/{id} → fetch restaurant profile.
+
+PUT /restaurants/{id} → update profile.
+
+GET /restaurants/{id}/menu → list menu items.
+
+POST /restaurants/{id}/menu → add menu item.
+
+PUT /restaurants/{id}/menu/{itemId} → update item.
+
+DELETE /restaurants/{id}/menu/{itemId} → delete item.
+
+GET /restaurants/{id}/orders → list orders for that restaurant.
+
+PUT /orders/{id}/status → update order status.
+
+GET /restaurants/{id}/reviews → list reviews for that restaurant.
+
+All these API calls will use the activeRestaurantId from context.
+
+
+
+
+
+
+//   "orders": [
+//     {
+//       "id": 1,
+//       "customer": { "name": "Rahul Sharma" },
+//       "restaurant": { "name": "Spice Hub" },
+//       "status": "Preparing",
+//       "orderDate": "2025-08-25T14:30:00Z",
+//       "totalAmount": 450
+//     },
+//     {
+//       "id": 2,
+//       "customer": { "name": "Ananya Verma" },
+//       "restaurant": { "name": "Biryani House" },
+//       "status": "Out for Delivery",
+//       "orderDate": "2025-08-25T15:45:00Z",
+//       "totalAmount": 700
+//     },
+//     {
+//       "id": 3,
+//       "customer": { "name": "Rohit Mehta" },
+//       "restaurant": { "name": "Burger King" },
+//       "status": "Delivered",
+//       "orderDate": "2025-08-24T18:10:00Z",
+//       "totalAmount": 250
+//     }
+//   ],
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+"restaurants": [
+    {
+      "id": "1",
+      "name": "Spice Hub",
+      "phone": "9876543210",
+      "address": "123 MG Road, Bangalore, India",
+      "owner": {
+        "id": 103,
+        "username": "Priya Verma",
+        "email": "priya.verma@example.com",
+        "role": "owner"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Biryani House",
+      "phone": "9123456780",
+      "address": "45 Park Street, Hyderabad, India",
+      "owner": {
+        "id": 104,
+        "username": "Sandeep Reddy",
+        "email": "sandeep.reddy@example.com",
+        "role": "owner"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Burger King",
+      "phone": "9012345678",
+      "address": "56 Ring Road, Delhi, India",
+      "owner": {
+        "id": 105,
+        "username": "Neha Gupta",
+        "email": "neha.gupta@example.com",
+        "role": "owner"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Tandoori Tales",
+      "phone": "9123456780",
+      "address": "45 Park Street, Hyderabad, India",
+      "owner": {
+        "id": 2,
+        "username": "John Doe",
+        "email": "owner1@gmail.com",
+        "role": "owner"
+      }
+    }
+  ],
